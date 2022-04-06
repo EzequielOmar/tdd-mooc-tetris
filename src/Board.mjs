@@ -1,23 +1,24 @@
 export class Board {
   width;
   height;
+  stringBoard = "";
 
   constructor(width, height) {
-    this.width = width;
-    this.height = height;
+    this.width = parseInt(width);
+    this.height = parseInt(height);
+    this.drawEmptyBoard();
   }
 
   toString() {
-    if (this.width && this.height) {
-      this.width = parseInt(this.width);
-      this.height = parseInt(this.height);
-      let stringBoard = "";
+    return this.stringBoard;
+  }
+
+  drawEmptyBoard() {
+    if (this.width && this.height)
       for (let i = 0; i < this.height; i++) {
-        stringBoard += ".".repeat(this.width);
-        stringBoard += "\n";
+        this.stringBoard += ".".repeat(this.width);
+        this.stringBoard += "\n";
       }
-      return stringBoard;
-    }
-    throw new Error("No width/height provided.");
+    else throw new Error("No width/height provided.");
   }
 }
