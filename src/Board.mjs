@@ -1,7 +1,7 @@
 export class Board {
   width;
   height;
-  stringBoard = "";
+  boardMap = [];
 
   constructor(width, height) {
     this.width = parseInt(width);
@@ -10,14 +10,22 @@ export class Board {
   }
 
   toString() {
-    return this.stringBoard;
+    let boardStr = "";
+    for (let i = 0; i < this.boardMap.length; i++) {
+      boardStr += this.boardMap[i].join("") + "\n";
+    }
+    return boardStr;
   }
 
+  //drop(block) {}
+
+  //  tick() {}
+
+  /*DECOUPLED FUNCTIONS*/
   drawEmptyBoard() {
     if (this.width && this.height)
       for (let i = 0; i < this.height; i++) {
-        this.stringBoard += ".".repeat(this.width);
-        this.stringBoard += "\n";
+        this.boardMap.push(".".repeat(this.width).split(""));
       }
     else throw new Error("No width/height provided.");
   }
