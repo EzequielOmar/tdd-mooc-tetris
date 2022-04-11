@@ -42,6 +42,10 @@ export class Board {
     }
   }
 
+  hasFalling() {
+    return this.#falling;
+  }
+
   /*DECOUPLED PRIVATE FUNCTIONS*/
   _drawEmptyBoard() {
     if (this.width && this.height)
