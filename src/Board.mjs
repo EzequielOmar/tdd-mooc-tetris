@@ -4,7 +4,7 @@ export class Board {
   //private
   #boardMap = [];
   #falling = false;
-  #fallingPos = { x: undefined, y: undefined };
+  #fallingPos = { row: undefined, col: undefined };
 
   constructor(width, height) {
     this.width = parseInt(width);
@@ -28,7 +28,7 @@ export class Board {
         this.height % 2 === 1 ? (this.height - 1) / 2 : this.height / 2;
       if (this.#boardMap[0][middle] === ".") {
         this.#boardMap[0][middle] = block.color;
-        this._saveNewFallPos(middle, 0);
+        this._saveNewFallPos(0, middle);
       } else throw new Error("kind`a loos");
     }
   }
@@ -37,8 +37,10 @@ export class Board {
     if (this.#falling) {
       if (this._canKeepFalling()) {
         this._fall();
-        this._saveNewFallPos(this.#fallingPos.y + 1, this.#fallingPos.x);
-      } else this._stopFall();
+        this._saveNewFallPos(this.#fallingPos.row + 1, this.#fallingPos.col);
+      } else {
+        this._stopFall();
+      }
     }
   }
 
@@ -55,19 +57,21 @@ export class Board {
     else throw new Error("No width/height provided.");
   }
 
-  _saveNewFallPos(x, y) {
-    this.#fallingPos.x = x;
-    this.#fallingPos.y = y;
+  _saveNewFallPos(row, col) {
+    this.#fallingPos.row = row;
+    this.#fallingPos.col = col;
   }
 
   _canKeepFalling() {
-    return this.#boardMap[this.#fallingPos.y + 1][this.#fallingPos.x] === ".";
+    return (
+      this.#boardMap[this.#fallingPos.row + 1] ?? [this.#fallingPos.col] === "."
+    );
   }
 
   _fall() {
-    this.#boardMap[this.#fallingPos.y + 1][this.#fallingPos.x] =
-      this.#boardMap[this.#fallingPos.y][this.#fallingPos.x];
-    this.#boardMap[this.#fallingPos.y][this.#fallingPos.x] = ".";
+    this.#boardMap[this.#fallingPos.row + 1][this.#fallingPos.col] =
+      this.#boardMap[this.#fallingPos.row][this.#fallingPos.col];
+    this.#boardMap[this.#fallingPos.row][this.#fallingPos.col] = ".";
   }
 
   _stopFall() {
