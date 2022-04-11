@@ -35,19 +35,10 @@ export class Board {
 
   tick() {
     if (this.#falling) {
-      //puede caer
-      console.log(this.#boardMap);
-      console.log(this.#fallingPos);
-      if (this.#boardMap[this.#fallingPos.y + 1][this.#fallingPos.x] === ".") {
-        //cae
-        this.#boardMap[this.#fallingPos.y + 1][this.#fallingPos.x] =
-          this.#boardMap[this.#fallingPos.y][this.#fallingPos.x];
-        this.#boardMap[this.#fallingPos.y][this.#fallingPos.x] = ".";
+      if (this._canKeepFalling()) {
+        this._fall();
         this._saveNewFallPos(this.#fallingPos.y + 1, this.#fallingPos.x);
-      } else {
-        this.#falling = false;
-        this._saveNewFallPos(undefined, undefined);
-      }
+      } else this._stopFall();
     }
   }
 
@@ -63,5 +54,20 @@ export class Board {
   _saveNewFallPos(x, y) {
     this.#fallingPos.x = x;
     this.#fallingPos.y = y;
+  }
+
+  _canKeepFalling() {
+    return this.#boardMap[this.#fallingPos.y + 1][this.#fallingPos.x] === ".";
+  }
+
+  _fall() {
+    this.#boardMap[this.#fallingPos.y + 1][this.#fallingPos.x] =
+      this.#boardMap[this.#fallingPos.y][this.#fallingPos.x];
+    this.#boardMap[this.#fallingPos.y][this.#fallingPos.x] = ".";
+  }
+
+  _stopFall() {
+    this.#falling = false;
+    this._saveNewFallPos(undefined, undefined);
   }
 }
