@@ -64,7 +64,8 @@ export class Board {
 
   _canKeepFalling() {
     return (
-      this.#boardMap[this.#fallingPos.row + 1] ?? [this.#fallingPos.col] === "."
+      this.#boardMap[this.#fallingPos.row + 1] &&
+      this.#boardMap[this.#fallingPos.row + 1][this.#fallingPos.col] === "."
     );
   }
 
